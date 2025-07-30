@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="search-mobile.css">
+    <link rel="stylesheet" href="header-auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://myfonts.ru/myfonts?fonts=ferry" rel="stylesheet">
+    <title>СКАН - Поиск</title>
+    <script>
+    if (window.innerWidth > 768) {
+        window.location.href = 'search.html';
+    }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-line">
+                <div class="header-logo">
+                    <img src="logo.png" alt="СКАН" width="111" height="111">
+                </div>
+                
+                <div class="user-info">
+                    <div class="limits">
+                        <div class="limit-item">
+                            <span class="limit-label">Использовано компаний</span>
+                            <span class="limit-value">34</span>
+                        </div>
+                        <div class="limit-item">
+                            <span class="limit-label">Лимит по компаниям</span>
+                            <span class="limit-value green">100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-toggle">
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <div class="search-content">
+                <div class="title-section">
+                    <div class="title-content">
+                        <h1 class="search-title">
+                            найдите<br>
+                            необходимые<br>
+                            данные в пару<br>
+                            кликов.
+                        </h1>
+                        <p class="search-subtitle">
+                            Задайте параметры поиска.<br>
+                            Чем больше заполните, тем точнее поиск
+                        </p>
+                    </div>
+                    <div class="title-icon">
+                        <img src="Document.svg" alt="Документ">
+                    </div>
+                </div>
+
+                <form class="search-form">
+                    <div class="form-group">
+                        <label for="inn">ИНН компании <span class="required-asterisk">*</span></label>
+                        <input type="text" id="inn" name="inn" placeholder="10 цифр">
+                        <div class="error-message" id="innError">Введите корректные данные</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tonality">Тональность</label>
+                        <select id="tonality" name="tonality">
+                            <option value="any">Любая</option>
+                            <option value="positive">Позитивная</option>
+                            <option value="negative">Негативная</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="documents">Количество документов в выдаче <span class="required-asterisk">*</span></label>
+                        <input type="number" id="documents" name="documents" placeholder="От 1 до 1000" min="1" max="1000">
+                        <div class="error-message" id="documentsError">Введите корректные данные</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Диапазон поиска <span class="required-asterisk">*</span></label>
+                        <div class="date-inputs">
+                            <select id="dateStart" name="dateStart">
+                                <option value="">Дата начала</option>
+                            </select>
+                            <select id="dateEnd" name="dateEnd">
+                                <option value="">Дата конца</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <button type="submit" class="search-button" id="searchButton" disabled>Поиск</button>
+                    <p class="required-note">* Обязательные к заполнению поля</p>
+                </form>
+
+                <div class="search-image">
+                    <img src="search img.png" alt="Поиск документов">
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="footer logo.png" alt="СКАН" width="111" height="111">
+                </div>
+                <div class="footer-info">
+                    <p>г. Москва, Цветной б-р, 40</p>
+                    <p>+7 495 771 21 11</p>
+                    <p>info@skan.ru</p>
+                    <p class="copyright">Copyright. 2022</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        function validateInn(inn, error) {
+            var result = false;
+            if (typeof inn === 'number') {
+                inn = inn.toString();
+            } else if (typeof inn !== 'string') {
+                inn = '';
+            }
+            if (!inn.length) {
+                error.code = 1;
+                error.message = 'ИНН пуст';
+            } else if (/[^0-9]/.test(inn)) {
+                error.code = 2;
+                error.message = 'ИНН может состоять только из цифр';
+            } else if ([10, 12].indexOf(inn.length) === -1) {
+                error.code = 3;
+                error.message = 'ИНН может состоять только из 10 или 12 цифр';
+            } else {
+                var checkDigit = function (inn, coefficients) {
+                    var n = 0;
+                    for (var i in coefficients) {
+                        n += coefficients[i] * inn[i];
+                    }
+                    return parseInt(n % 11 % 10);
+                };
+                switch (inn.length) {
+                    case 10:
+                        var n10 = checkDigit(inn, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
+                        if (n10 === parseInt(inn[9])) {
+                            result = true;
+                        }
+                        break;
+                    case 12:
+                        var n11 = checkDigit(inn, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+                        var n12 = checkDigit(inn, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+                        if ((n11 === parseInt(inn[10])) && (n12 === parseInt(inn[11]))) {
+                            result = true;
+                        }
+                        break;
+                }
+                if (!result) {
+                    error.code = 4;
+                    error.message = 'Неправильное контрольное число';
+                }
+            }
+            return result;
+        }
+        
+        function validateDocuments(value) {
+            const num = parseInt(value);
+            return !isNaN(num) && num >= 1 && num <= 1000;
+        }
+        
+        function showError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            const asterisk = field.previousElementSibling.querySelector('.required-asterisk');
+            
+            field.classList.add('error');
+            error.classList.add('show');
+            if (asterisk) asterisk.classList.add('error');
+        }
+        
+        function hideError(fieldId, errorId) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            const asterisk = field.previousElementSibling.querySelector('.required-asterisk');
+            
+            field.classList.remove('error');
+            error.classList.remove('show');
+            if (asterisk) asterisk.classList.remove('error');
+        }
+
+        async function getPublications(requestBody, token) {
+            try {
+                const response = await fetch('https://gateway.scan-interfax.ru/api/v1/objectsearch', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (error) {
+                console.error('Error getting publications:', error);
+            }
+            return null;
+        }
+        
+        async function getDocuments(items, token) {
+            if (!items || items.length === 0) return null;
+            
+            const ids = items.slice(0, 100).map(item => item.encodedId);
+            
+            try {
+                const response = await fetch('https://gateway.scan-interfax.ru/api/v1/documents', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ ids })
+                });
+                
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (error) {
+                console.error('Error getting documents:', error);
+            }
+            return null;
+        }
+        
+        async function performSearch() {
+            const inn = document.getElementById('inn').value.trim();
+            const documents = parseInt(document.getElementById('documents').value.trim());
+            const dateStart = document.getElementById('dateStart').value;
+            const dateEnd = document.getElementById('dateEnd').value;
+            const tonality = document.getElementById('tonality').value;
+            
+            const maxCompleteness = false;
+            const businessMentions = null;
+            const mainRole = true;
+            const riskFactors = false;
+            const techNews = true;
+            const announcements = true;
+            const newsSummary = true;
+            
+            const token = localStorage.getItem('accessToken');
+            
+            const requestBody = {
+                "issueDateInterval": {
+                    "startDate": dateStart + "T00:00:00+03:00",
+                    "endDate": dateEnd + "T23:59:59+03:00"
+                },
+                "searchContext": {
+                    "targetSearchEntitiesContext": {
+                        "targetSearchEntities": [{
+                            "type": "company",
+                            "sparkId": null,
+                            "entityId": null,
+                            "inn": parseInt(inn),
+                            "maxFullness": maxCompleteness,
+                            "inBusinessNews": businessMentions
+                        }],
+                        "onlyMainRole": mainRole,
+                        "tonality": tonality,
+                        "onlyWithRiskFactors": riskFactors,
+                        "riskFactors": {
+                            "and": [],
+                            "or": [],
+                            "not": []
+                        },
+                        "themes": {
+                            "and": [],
+                            "or": [],
+                            "not": []
+                        }
+                    },
+                    "themesFilter": {
+                        "and": [],
+                        "or": [],
+                        "not": []
+                    }
+                },
+                "searchArea": {
+                    "includedSources": [],
+                    "excludedSources": [],
+                    "includedSourceGroups": [],
+                    "excludedSourceGroups": []
+                },
+                "attributeFilters": {
+                    "excludeTechNews": !techNews,
+                    "excludeAnnouncements": !announcements,
+                    "excludeDigests": !newsSummary
+                },
+                "similarMode": "duplicates",
+                "limit": documents,
+                "sortType": "sourceInfluence",
+                "sortDirectionType": "desc",
+                "intervalType": "month",
+                "histogramTypes": [
+                    "totalDocuments",
+                    "riskFactors"
+                ]
+            };
+            
+            try {
+                const response = await fetch('https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (response.ok) {
+                    const histogramData = await response.json();
+                    console.log('Histogram results:', histogramData);
+                    
+                    const publicationsData = await getPublications(requestBody, token);
+                    if (publicationsData) {
+                        const documentsData = await getDocuments(publicationsData.items, token);
+                        console.log('Publications:', publicationsData);
+                        console.log('Documents:', documentsData);
+                        window.location.href = 'issuance-mobile.html';
+                    }
+                } else {
+                    console.error('Search failed:', response.status);
+                    alert('Ошибка при выполнении поиска');
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                alert('Ошибка при выполнении поиска');
+            }
+        }
+        
+        function checkRequiredFields() {
+            const inn = document.getElementById('inn').value.trim();
+            const documents = document.getElementById('documents').value.trim();
+            const dateStart = document.getElementById('dateStart').value;
+            const dateEnd = document.getElementById('dateEnd').value;
+            const searchButton = document.getElementById('searchButton');
+            
+            let innValid = true;
+            if (inn) {
+                const error = { code: null, message: null };
+                innValid = validateInn(inn, error);
+                if (!innValid) {
+                    showError('inn', 'innError');
+                } else {
+                    hideError('inn', 'innError');
+                }
+            } else {
+                hideError('inn', 'innError');
+            }
+            
+            const documentsValid = validateDocuments(documents);
+            if (documents && !documentsValid) {
+                showError('documents', 'documentsError');
+            } else {
+                hideError('documents', 'documentsError');
+            }
+            
+            const allFieldsFilled = inn && documents && dateStart && dateEnd;
+            const allFieldsValid = innValid && documentsValid;
+            
+            searchButton.disabled = !(allFieldsFilled && allFieldsValid);
+            searchButton.classList.toggle('disabled', !(allFieldsFilled && allFieldsValid));
+        }
+        function generateDateOptions() {
+            const startSelect = document.getElementById('dateStart');
+            const endSelect = document.getElementById('dateEnd');
+            
+            const currentYear = new Date().getFullYear();
+            const startYear = currentYear - 10;
+            
+            for (let year = startYear; year <= currentYear; year++) {
+                for (let month = 1; month <= 12; month++) {
+                    for (let day = 1; day <= 28; day++) {
+                        const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                        const dateObj = new Date(year, month - 1, day);
+                        const displayStr = dateObj.toLocaleDateString('ru-RU');
+                        
+                        const startOption = new Option(displayStr, dateStr);
+                        const endOption = new Option(displayStr, dateStr);
+                        
+                        if (year === currentYear && month === 1 && day === 1) {
+                            startSelect.appendChild(startOption);
+                        }
+                        if (year === currentYear && month === 12 && day === 31) {
+                            endSelect.appendChild(endOption);
+                        }
+                    }
+                }
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            generateDateOptions();
+            
+            const requiredFields = ['inn', 'documents', 'dateStart', 'dateEnd'];
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                field.addEventListener('input', checkRequiredFields);
+                field.addEventListener('change', checkRequiredFields);
+            });
+            
+            document.getElementById('searchButton').addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                const searchButton = this;
+                searchButton.disabled = true;
+                searchButton.textContent = 'Поиск...';
+                
+                await performSearch();
+                
+                searchButton.disabled = false;
+                searchButton.textContent = 'Поиск';
+            });
+            
+            checkRequiredFields();
+        });
+    </script>
+    
+    <script src="header-auth.js"></script>
+</body>
+</html>

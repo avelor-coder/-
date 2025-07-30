@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://myfonts.ru/myfonts?fonts=ferry" rel="stylesheet">
+    <title>СКАН - Авторизация</title>
+    <script>
+    if (window.innerWidth <= 768) {
+        window.location.href = 'auth-mobile.html';
+    }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-line">
+                <div class="header-logo">
+                    <img src="logo.png" alt="СКАН" width="141" height="141">
+                </div>
+                
+                <div class="nav">
+                    <a class="nav-item" href="index.html">Главная</a>
+                    <a class="nav-item" href="#">Тарифы</a>
+                    <a class="nav-item" href="#">FAQ</a>
+                </div>
+
+                <div class="auth-buttons">
+                    <a class="register-link" href="#">Зарегистрироваться</a>
+                    <a class="login-button active" href="#">Войти</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <div class="auth-content">
+                <div class="auth-left">
+                    <h1 class="auth-title">
+                        для оформления подписки <br> на тариф, необходимо <br> авторизоваться.
+                    </h1>
+                    <div class="auth-image">
+                        <img src="Characters.png" alt="Авторизация" width="400" height="300">
+                    </div>
+                </div>
+
+                <div class="auth-right">
+                    <div class="login-form-container">
+                        <div class="lock-icon">
+                            <img src="lock icon.png" alt="Замок" width="75" height="92">
+                        </div>
+                        
+                        <div class="form-tabs">
+                            <button class="tab-button active" data-tab="login">Войти</button>
+                            <button class="tab-button" data-tab="register">Зарегистрироваться</button>
+                        </div>
+
+                        <form class="login-form" id="loginForm">
+                            <div class="form-group" id="loginGroup">
+                                <label for="login">Логин или номер телефона:</label>
+                                <input type="text" id="login" name="login">
+                                <div class="error-message">Введите корректные данные</div>
+                            </div>
+
+                            <div class="form-group" id="passwordGroup">
+                                <label for="password">Пароль:</label>
+                                <input type="password" id="password" name="password">
+                                <div class="error-message">Неправильный пароль</div>
+                            </div>
+
+                            <button type="submit" class="submit-button">Войти</button>
+                            
+                            <a href="#" class="forgot-password">Восстановить пароль</a>
+                        </form>
+
+                        <div class="social-login">
+                            <p>Войти через:</p>
+                            <div class="social-buttons">
+                                <button class="social-btn-google">
+                                    <img src="google icon.png" alt="Google">
+                                </button>
+                                <button class="social-btn-facebook">
+                                    <img src="facebook icon.png" alt="Facebook">
+                                </button>
+                                <button class="social-btn-yandex">
+                                    <img src="yandex icon.png" alt="Яндекс">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="footer logo.png" alt="СКАН" width="141" height="141">
+                </div>
+                <div class="footer-info">
+                    <p>г. Москва, Цветной б-р, 40</p>
+                    <p>+7 495 771 21 11</p>
+                    <p>info@skan.ru</p>
+                    <p class="copyright">Copyright. 2022</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('accessToken');
+        const expire = localStorage.getItem('expire');
+        
+        if (token && expire && new Date(expire) > new Date()) {
+            window.location.href = 'search.html';
+        }
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-button');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            if (button.dataset.tab === 'register') {
+                console.log('Switch to register');
+            } else {
+                console.log('Switch to login');
+            }
+        });
+    });
+
+    const loginInput = document.getElementById('login');
+    const loginGroup = document.getElementById('loginGroup');
+    const passwordInput = document.getElementById('password');
+    const passwordGroup = document.getElementById('passwordGroup');
+
+    if (loginInput && loginGroup) {
+        loginInput.addEventListener('input', function() {
+            const value = this.value;
+            const validPattern = /^(\+)?[0-9\s\-\(\)]*$/;
+            
+            if (value && !validPattern.test(value)) {
+                loginGroup.classList.add('error');
+            } else {
+                loginGroup.classList.remove('error');
+            }
+        });
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const loginValue = loginInput ? loginInput.value.trim() : '';
+        const passwordValue = passwordInput ? passwordInput.value.trim() : '';
+        
+        if (loginGroup) loginGroup.classList.remove('error');
+        if (passwordGroup) passwordGroup.classList.remove('error');
+        
+        let hasErrors = false;
+        
+        if (!loginValue) {
+            if (loginGroup) loginGroup.classList.add('error');
+            hasErrors = true;
+        }
+        
+        if (!passwordValue) {
+            if (passwordGroup) passwordGroup.classList.add('error');
+            hasErrors = true;
+        }
+        
+        if (hasErrors) return;
+        const submitButton = document.querySelector('.submit-button');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Вход...';
+        
+        try {
+            const response = await fetch('https://gateway.scan-interfax.ru/api/v1/account/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    login: loginValue,
+                    password: passwordValue
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+             
+                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('expire', data.expire);
+                
+                window.location.href = 'search.html';
+            } else {
+                if (passwordGroup) passwordGroup.classList.add('error');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            if (passwordGroup) passwordGroup.classList.add('error');
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Войти';
+        }
+    });
+    </script>
+</body>
+</html>

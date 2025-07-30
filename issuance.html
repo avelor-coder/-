@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="issuance.css">
+    <link rel="stylesheet" href="header-auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://myfonts.ru/myfonts?fonts=ferry" rel="stylesheet">
+    <title>СКАН - Результаты поиска</title>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-line">
+                <div class="header-logo">
+                    <img src="logo.png" alt="СКАН" width="141" height="141">
+                </div>
+                
+                <div class="nav">
+                    <a class="nav-item" href="index.html">Главная</a>
+                    <a class="nav-item" href="#">Тарифы</a>
+                    <a class="nav-item" href="#">FAQ</a>
+                </div>
+
+                <div class="user-info">
+                    <div class="limits">
+                        <div class="limit-item">
+                            <span class="limit-label">Использовано компаний</span>
+                            <span class="limit-value">34</span>
+                        </div>
+                        <div class="limit-item">
+                            <span class="limit-label">Лимит по компаниям</span>
+                            <span class="limit-value green">100</span>
+                        </div>
+                    </div>
+                    <div class="user-profile">
+                        <span class="user-name">Алексей А.</span>
+                        <button class="logout-btn" onclick="window.logout()">Выйти</button>
+                        <div class="user-avatar">
+                            <img src="defolt img.jpg" alt="Аватар">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="search-results">
+                <div class="results-header">
+                    <div class="results-text">
+                        <h1 class="results-title">
+                            ищем. скоро<br>
+                            будут результаты
+                        </h1>
+                        <p class="results-subtitle">
+                            Поиск может занять некоторое время,<br>
+                            просим сохранять терпение.
+                        </p>
+                    </div>
+                    <div class="results-image">
+                        <img src="issuance img.svg" alt="Поиск результатов">
+                    </div>
+                </div>
+
+                <div class="summary-section">
+                    <h2 class="summary-title">общая сводка</h2>
+                    <p class="summary-subtitle">Найдено 4 221 вариантов</p>
+                    
+                    <div class="summary-table">
+                        <div class="table-header">
+                            <div class="table-cell header-cell">Период</div>
+                            <div class="table-cell">10.09.2021</div>
+                            <div class="table-cell">13.09.2021</div>
+                            <div class="table-cell">17.09.2021</div>
+                            <div class="table-cell">20.09.2021</div>
+                            <div class="table-cell">12.10.2021</div>
+                            <div class="table-cell">15.10.2021</div>
+                            <div class="table-cell">16.10.2021</div>
+                            <div class="table-cell">17.10.2021</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell header-cell">Всего</div>
+                            <div class="table-cell">5</div>
+                            <div class="table-cell">2</div>
+                            <div class="table-cell">6</div>
+                            <div class="table-cell">8</div>
+                            <div class="table-cell">1</div>
+                            <div class="table-cell">10</div>
+                            <div class="table-cell">4</div>
+                            <div class="table-cell">3</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell header-cell">Риски</div>
+                            <div class="table-cell">0</div>
+                            <div class="table-cell">0</div>
+                            <div class="table-cell">0</div>
+                            <div class="table-cell">2</div>
+                            <div class="table-cell">0</div>
+                            <div class="table-cell">2</div>
+                            <div class="table-cell">0</div>
+                            <div class="table-cell">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="documents-section">
+                    <h2 class="documents-title">список документов</h2>
+                    
+                    <div class="documents-list">
+                        <div class="document-card">
+                            <div class="document-header">
+                                <span class="document-date">13.09.2021</span>
+                                <span class="document-source">Комсомольская правда KP.RU</span>
+                            </div>
+                            <h3 class="document-title">Скиллфэктори - лучшая онлайн-школа для будущих айтишников</h3>
+                            <span class="document-tag">Технические новости</span>
+                            <div class="document-image">
+                                <img src="document img1.png" alt="Скиллфэктори">
+                            </div>
+                            <div class="document-content">
+                                <p>SkillFactory — школа для всех, кто хочет изменить свою карьеру и жизнь. С 2016 года обучили специалистов из 40 стран с 4 континентов, самому взрослому студенту сейчас 86 лет. Выпускники работают в Яндексе, Cisco, Bayer, Nvidia, МТС, Ростелекоме, Майле, Яндексе, Ozon и других топовых компаниях.</p>
+                                <p>Принципы SkillFactory: акцент на практике и реальных задачах в студентах и ориентир на трудоустройство. 80% обучения — выполнение упражнений и реальных проектов. Каждого студента поддерживают менторы, 2 саппорт-линии и комьюнити курса. А карьерный центр помогает составить резюме, подготовиться к собеседованиям и познакомиться с IT-рекрутерами.</p>
+                            </div>
+                            <div class="document-footer">
+                                <button class="read-source-btn">Читать в источнике</button>
+                                <span class="word-count">2 543 слова</span>
+                            </div>
+                        </div>
+
+                        <div class="document-card">
+                            <div class="document-header">
+                                <span class="document-date">15.10.2021</span>
+                                <span class="document-source">VC.RU</span>
+                            </div>
+                            <h3 class="document-title">Работа в Data Science в 2022 году: тренды, навыки и обзор специализаций</h3>
+                            <span class="document-tag">Технические новости</span>
+                            <div class="document-image">
+                                <img src="document img2.png" alt="Data Science">
+                            </div>
+                            <div class="document-content">
+                                <p>Кто такой Data Scientist и чем он занимается?</p>
+                                <p>Data Scientist — это специалист, который работает с большими массивами данных, чтобы с их помощью решить задачи бизнеса. Простыми словами, это человек, который превращает данные в интеллект — умные ленты в социальных сетях. На основе ваших просмотров и лайков алгоритм выдает рекомендации с контентом, который может быть вам интересен. Эту модель создал и обучил дата-сайентист. А скорее всего, не один.</p>
+                                <p>В небольших компаниях и стартапах дата-сайентист делает все: собирает и очищает данные, создает математическую модель для их анализа, тестирует ее и презентует готовое решение бизнесу.</p>
+                            </div>
+                            <div class="document-footer">
+                                <button class="read-source-btn">Читать в источнике</button>
+                                <span class="word-count">3 233 слова</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="show-more-btn">Показать больше</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="footer logo.png" alt="СКАН" width="141" height="141">
+                </div>
+                <div class="footer-info">
+                    <p>г. Москва, Цветной б-р, 40</p>
+                    <p>+7 495 771 21 11</p>
+                    <p>info@skan.ru</p>
+                    <p class="copyright">Copyright. 2022</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="header-auth.js"></script>
+</body>
+</html>
